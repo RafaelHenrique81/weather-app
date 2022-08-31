@@ -8,29 +8,30 @@ const timeIcon = document.querySelector('[data-js="time-icon"]')
 
 let timeImg = document.querySelector('[data-js="time"]')
 
-cityForm.addEventListener('submit', async event =>{
-    event.preventDefault()
-
-    const inputValue = event.target.city.value
-    const [{ Key, LocalizedName }] = await getCityData(inputValue)
-    const [{ WeatherText, Temperature, IsDayTime, WeatherIcon }] = await getCityWeather(Key)
-    const timeIconImg = `<img src="./src/icons/${WeatherIcon}.svg" />`
-
+const showCityCard = () => {
     if (cityCard.classList.contains('d-none')) {
         cityCard.classList.remove('d-none')
     }
+}
 
-    if (IsDayTime){
-        timeImg.src = './src/day.svg'
-    } else {
-        timeImg.src = './src/night.svg'
-    }
+ShowCityWeatherInfo = async city => {
+    const [{ Key, LocalizedName }] = await getCityData(city)
+    const [{ WeatherText, Temperature, IsDayTime, WeatherIcon }] = await getCityWeather(Key)
+    const timeIconImg = `<img src="./src/icons/${WeatherIcon}.svg" />`
 
+    timeImg.src = IsDayTime ? './src/day.svg' : './src/night.svg'
     timeIcon.innerHTML = timeIconImg
     cityName.textContent = LocalizedName
     cityWeatherDetail.textContent = WeatherText
     cityTemperature.textContent = Temperature.Metric.Value
+}
 
-    console.log(WeatherText, Temperature.Metric.Value)
+cityForm.addEventListener('submit', event =>{
+    event.preventDefault()
+
+    const inputValue = event.target.city.value
+
+    showCityCard()
+    ShowCityWeatherInfo(inputValue)
     cityForm.reset()
 })
