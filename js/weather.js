@@ -1,4 +1,4 @@
-const APIKey = '6znLkOt4xm2qHTUFeSGp5W7kiyNUXoYt'
+const APIKey = '9W3BByazR2JskwvtgRTbT79x6PZ4Azma'
 
 const getCityUrl = cityName => 
     `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${APIKey}&q=${cityName}`
@@ -22,7 +22,7 @@ const getCityData = async cityName => {
 const getCityWeather = async cityName => {
     try {
         const { Key } = await getCityData(cityName)
-        const cityWeatherUrl = `http://dataservice.accuweather.com/currentconditions/v1/${Key}&apikey${APIKey}`
+        const cityWeatherUrl = `http://dataservice.accuweather.com/currentconditions/v1/${Key}?apikey=${APIKey}&language=pt-br`
         const response = await fetch(cityWeatherUrl)
 
         if(!response.ok){
@@ -36,4 +36,5 @@ const getCityWeather = async cityName => {
     }
 }
 
-getCityWeather('São Paulo')
+
+console.log(getCityWeather('rio'))
